@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="de">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/bootstrap.min.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/bootstrap-grid.min.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/bootstrap-reboot.min.css') }}"/>
+    <style>
+        *{
+            font: 1em sans-serif;
+
+        }
+    </style>
+<body>
+<div class="container">
+    <div class="row">
+        <br>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                  Select the Correct answers
+                </div>
+                <div class="card-body">
+                    <form action="{{url_for('voting')}}" method="post">
+                        <input type="hidden" name="id" value="{{ id }}">
+                        <h5 class="card-title"> {{ question }} </h5>
+                        <p class="card-text">
+                            {%- for ans in possibilities %}
+                                {% if type == '2' %}
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="{{ans}}" name="{{ans}}">
+                                        <label class="form-check-label" for="{{ans}}">
+                                            {{ans}}
+                                        </label>
+                                    </div>
+                                {% else %}
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="flexRadioDefault" name="{{ans}}" value="{{ans}}">
+                                        <label class="form-check-label" for="{{ans}}">
+                                            {{ans}}
+                                        </label>
+                                    </div>
+                                {% endif %}
+                            {%- endfor %}
+                        </p>
+                        <button type="submit"  class="btn btn-primary">Send</button>
+                    </form>
+                </div>
+            </div>          
+        </div>
+    </div>
+</div>
+<script>
+    
+</script>
+</body>
+</html>

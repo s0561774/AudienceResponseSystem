@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% block title %} Listes created pools {% endblock %}
+{% block styles %} 
+  <style>
+    .started{
+      background-color: green;
+      color: white;
+    }
+    #big-container{
+ padding: 10px;
+  height: 100vh;
+  box-shadow: inset 0 -3em 3em rgba(0, 0, 0, 0.1), 0 0 0 2px rgb(255, 255, 255),
+  0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+}
+  </style>
+{% endblock %}
+{% block content %} 
+
+<div class="row">
+  <div class="col">
+    <form class="row  align-items-center">
+      <div class="col">
+        <label class="visually-hidden" for="start_date">Start date</label>
+        <input type="date" class="form-control" id="start_date">
+      </div>
+      <div class="col">
+        <label class="visually-hidden" for="end_date">End date</label>
+        <input type="date" class="form-control" id="end_date">
+      </div>
+      
+      <div class="col-auto">
+        <a  id="makeFilter"  class="btn btn-info form-control">Filter</a>
+      </div>
+    </form>
+    <br>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col" id="column">
+    {%   for item in listes %}
+      {%  if item[5] == 1 %}
+      <div class="card text-center ">
+        <div class="card-header started">
+          {%  if item[2] == 2 %}
+            Questions &agrave; choix multiple
+          {% else %}
+           Questions &agrave;  choix unique
+          {% endif %}
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{{ item[3] }}</h5>
+          <p class="card-text"> {{ url_for('answer', question_id =item[1], _external=True) }}</p>
+        </div>
+        <div class="card-footer ">
+          <button type="button" class="btn btn-success " name="{{item[1] }}" onclick="start(name)">Start</button>
+          <button type="button" class="btn btn-danger" name="{{item[1] }}" onclick="stop(name)">Stop</button>
+          <button type="button" class="btn btn-warning" name="{{item[1] }}"  onclick="remove(name)">Delete</button>
+        </div>
+      </div>
+      {% else %}
+      <div class="card text-center">
+        <div class="card-header">
+          <div class="card-header">
+            {%  if item[2] == 2 %}
+              Questions &agrave; choix multiple
+            {% else %}
+             Questions &agrave;  choix unique
+            {% endif %}
+          </div>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{{ item[3] }}</h5>
+        </div>
+        <div class="card-footer ">
+          <button type="button" class="btn btn-success" name="{{item[1] }}" onclick="start(name)">Start</button>
+          <button type="button" class="btn btn-danger" name="{{item[1] }}" onclick="stop(name)">Stop</button>
+          <button type="button" class="btn btn-warning"  name="{{item[1] }}" onclick="remove(name)">Delete</button>
+        </div>
+      </div>
+      {% endif %}
+     <br>
+     {% endfor %}
+  </div>
+</div>
+
+
+   
+
+{% endblock %}
+{% block script %}
+
+<script>
+  $('#makeFilter').click(function(event){
+    console.log('capture')
+    var startDate=  $('#start_date').val();
+    var endDate=  $('#end_date').val()
+    console.log(startDate)
+    console.log(endDate)
+    $('#makeFilter').attr('href', '/pools_filter?start_date='+startDate+'&end_date='+endDate);
+  });
+
+  function start(id)
+  {
+    $.ajax({
+      url:'/start/'+id,
+      type:'PUT',
+      data:id,
+      success:function(){
+        location.reload();
+      },
+      error: function(err)
+      {
+        alert('internal server error', err)
+      }
+    })
+    
+  }
+  function stop(id)
+  {
+    $.ajax({
+      url:'/stop/'+id,
+      type:'PUT',
+      data:id,
+      success:function(){
+        location.reload();
+      },
+      error: function(err)
+      {
+        alert('internal server error')
+      }
+    })
+  }
+
+  function remove(id)
+  {
+    
+    $.ajax({
+      url:'/remove_question/'+id,
+      type:'DELETE',
+      data:id,
+      success:function(){
+        location.reload();
+      },
+      error: function(err)
+      {
+        alert('internal server error')
+      }
+    })
+  }
+</script>
+{% endblock %}

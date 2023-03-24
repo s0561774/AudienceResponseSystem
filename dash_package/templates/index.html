@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+{% block styles %} 
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'style.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+{% endblock %}
+{% block title %} Pool App {% endblock %}
+{% block content %} 
+<div class="col">
+    <div  class="container">
+        <div class="row">
+            <div class="col">
+                <form id="creatingForm" method="post" action="{{url_for('treatment')}}">
+                    <div class="mb-3">
+                        <label for="type_answers" class="form-label">Type of answers</label>
+                        <select id="type_answers" name="type" class="form-select" aria-label="Default select example">
+                            <option value="1" selected>Single Choice</option>
+                            <option value="2">Multiple Choice</option>
+                          </select>
+                    </div> 
+                    <br>
+                    <div class="mb-3">
+                        <div class="form-floating">
+                            <textarea class="form-control" name="question" placeholder="Leave a question here" id="floatingTextarea2" ></textarea>
+                            <label for="floatingTextarea2">Questions</label>
+                          </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col-8">
+                                <label for="answer_id">Answers</label>
+                                <div class="row g-3">
+                                      <div class="col-auto">
+                                        <input type="text" class="form-control" id="inputAnswer" placeholder="answer">
+                                      </div>
+                                      <div class="col-auto">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="">
+                                            <label class="form-check-label" for="inlineCheckbox1">is the correct answer?</label>
+                                        </div>
+                                      </div>
+                                      <div class="col-auto">
+                                        <button type="button" id="id_answer"  class="btn btn-primary mb-3" disabled>Add answer</button>
+                                      </div>
+
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <label for="answers">List of answers</label>
+                                <ul class="list-group" id="answers" >
+
+                                </ul>
+                                <br>
+                                <button type="button" id="pop_id_button" class="btn btn-danger">Pop</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div id="id_hidden"></div>
+                    </div>
+                    <div class="mb-3">
+                        <button  type="submit" class="btn btn-success form-control" > Create</button>
+                    </div>
+                  </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block script %} 
+<script>
+   
+   $(document).ready(function(){
+    var isthereCorrect = false;
+        $('#id_answer').click(function(){
+
+            if($('#inputAnswer').val() != "" && $('#inputAnswer').val() != " ")
+            { 
+                let type = $('#type_answers').val();
+                let index = $('#answers').children().toArray().length +1
+
+                if($('#inlineCheckbox1').is(':checked'))
+                {
+                    if(type == 1)
+                    {
+                        
+                        if(isthereCorrect == false)
+                        {
+                            $("#answers").append("<li class=\"list-group-item active\"> "+ $('#inputAnswer').val()+" </li>");
+                            isthereCorrect = true;
+                        }
+                        else{
+                            alert("This type of question allows only a correct");
+                            $("#answers").append("<li class=\"list-group-item\"> "+ $('#inputAnswer').val()+" </li>");
+                        }
+                    }
+                    else{
+                        $("#answers").append("<li class=\"list-group-item active\"> "+ $('#inputAnswer').val()+" </li>");
+                    }
+                   
+                    $('#id_hidden').append("<input type=\"hidden\" name=\"elt_"+index+"\" value=\""+$('#inputAnswer').val()+"|true\" /> ")
+                }
+                else
+                {
+                    $("#answers").append("<li class=\"list-group-item\"> "+ $('#inputAnswer').val()+" </li>");
+                    $('#id_hidden').append("<input type=\"hidden\" name=\"elt_"+index+"\" value=\""+$('#inputAnswer').val()+"\" /> ")
+                }
+                
+                $('#inputAnswer').val("")
+                $('#inlineCheckbox1').prop('checked', false);
+            }
+            
+        });
+
+        $('#pop_id_button').click(function(){
+            let type = $('#type_answers').val();
+            if(type == 1)
+            {
+                $('#answers').children().last().hasClass('active')
+                {
+                    isthereCorrect = false;
+                }
+            }
+           
+
+            $('#answers').children().last().remove()
+        })
+
+        $('#inputAnswer').on('keyup', function(event){
+            if(event.keyCode != 13 || event.keyCode != 49)
+            {
+                $('#id_answer').prop('disabled', false);
+            }
+            else{
+                $('#id_answer').prop('disabled', true);
+            }
+        })
+
+
+
+   });
+    var i =0;
+    function addAnswers(){
+
+
+    }
+    function deleteElement(index){
+        document.getElementById("elt_"+index).remove();
+    }
+    function makeTrue(checkbox, index){
+        if(checkbox.checked )
+        {
+            $("#elt_"+index).addClass("corrent-answer");
+        }
+        else{
+            $("#elt_"+index).removeClass("corrent-answer");
+        }
+    }
+    function getData()
+    {
+        var formEl = document.forms.creatingForm;
+        var formData = new FormData(formEl);
+        for ( var j = 0; j < formEl.elements.length; j++ ) {
+            console.log(formEl.elements[j].name +": "+ formEl.elements[j].value );
+        }
+       
+    }
+
+</script>
+{% endblock %}

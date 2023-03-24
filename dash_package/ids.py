@@ -1,0 +1,7 @@
+TYPE_DIAGRAM="id-dropdown-type"
+BUTTON_SELECT_TYPE="id-button-type"
+LISTE_QUESTION =" id-question-data"
+GRAPH ="id-Graph"
+CORRECT_ANSWER ="id-correct"
+SHOW_ANSWER ="id-show-answer"
+BLOCK_ANSWER="id-block-answer"

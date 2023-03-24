@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="de">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/bootstrap.min.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/bootstrap-grid.min.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/bootstrap-reboot.min.css') }}"/>
+    {% block styles %} {% endblock %}
+    <title>{% block title %} {% endblock %}</title>
+    <body >
+        <div id="big-container" class="container">
+            <div  class="container">
+                <div class="row">
+                    <div class="jumbotron jumbotron-fluid">
+                        <div class="container">
+                        <h1 class="display-3" style="font-weight: bold;">Questions & Answers</h1>
+                        <p class="lead">This application is a simple pools, which allows a user to create a questions and to show the result in a diagram.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <ul class="nav">
+                        <li class="nav-item">
+                          <a class="nav-link " href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="/pools">Questions</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/dashApp">Results</a>
+                          </li>
+                      </ul>
+                      <hr>
+                      <br>
+                      <br>
+                </div>
+            </div>
+            <div class="container">
+                {% block content %} {% endblock %}       
+            </div>
+        </div>
+       
+        <script src="{{ url_for('static', filename= 'jquery.min.js') }}"></script>
+        <script src="{{ url_for('static', filename= 'js/bootstrap.min.js') }}"></script>
+        {% block script %} {% endblock %}
+    </body>
+</html>

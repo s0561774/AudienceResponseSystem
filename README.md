@@ -1,5 +1,5 @@
 # AudienceResponseSystem
-in diese seite geht um die Entwicklung eines ARS. 
+In diese seite geht um die Entwicklung eines ARS für die interaction zwischen Studierenden und Dozent in der Vorlesung.
 
 
 

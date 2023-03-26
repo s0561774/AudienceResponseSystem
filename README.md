@@ -6,7 +6,7 @@ In diese seite geht um die Entwicklung eines ARS für die interaction zwischen S
 Technologie	Installation
 
 dash	  pip install dash
-flask	  pip install dash
+flask	  pip install flask
 Bootstrap 	pip install dash_bootstrap_components
 Openpyxl	  pip install openpyxl
 Pandas	  pip install pandas
